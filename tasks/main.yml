@@ -10,8 +10,6 @@
 
 - name: download package
   get_url: url={{ softether_url }} dest="{{ softether_tmp_path }}/{{ softether_package_file }}"
-  args:
-    creates: "{{ softether_tmp_path }}/{{ softether_package_file }}"
   register: download
 
 - name: extract vpnserver package
