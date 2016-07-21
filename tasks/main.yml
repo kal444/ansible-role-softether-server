@@ -27,12 +27,15 @@
 
 - include: permissionfix.yml
 
-- name: copy vpn server config
-  template: src=vpn_server.config.j2 dest={{ softether_install_path }}/vpn_server.config backup=yes
-
 - name: copy vpnserver init.d script
   template: src=vpnserver.initd.j2 dest=/etc/init.d/vpnserver mode=0755
 
-- name: ensure service is enabled
+- name: ensure service is stopped before the config fie is updated
+  service: name=vpnserver state=stopped
+
+- name: copy vpn server config
+  template: src=vpn_server.config.j2 dest={{ softether_install_path }}/vpn_server.config backup=yes
+
+- name: ensure service is enabled and started
   service: name=vpnserver enabled=yes state=started
 
