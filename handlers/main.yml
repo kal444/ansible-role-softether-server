@@ -1,0 +1,9 @@
+---
+- name: stop vpnserver
+  service: name=vpnserver state=stopped
+
+- name: start vpnserver
+  service: name=vpnserver state=started
+
+- name: restart vpnserver
+  service: name=vpnserver state=restarted

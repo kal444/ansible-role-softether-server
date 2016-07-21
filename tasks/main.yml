@@ -1,0 +1,35 @@
+---
+# tasks file for ansible-role-softether-server
+- include: buildtools.yml
+
+- name: setup tmp path
+  file: path={{ softether_tmp_path }} state=directory
+
+- name: copy answer file to run make non-interactively
+  copy: src=make.answers dest={{ softether_tmp_path }}/make.answers
+
+- name: download package
+  get_url: url={{ softether_url }} dest="{{ softether_tmp_path }}/{{ softether_package_file }}"
+  args:
+    creates: "{{ softether_tmp_path }}/{{ softether_package_file }}"
+  register: download
+
+- name: extract vpnserver package
+  unarchive: src={{ softether_package_file }} dest={{ softether_install_prefix }}
+  when: download.changed
+  register: extraction
+
+- name: execute build
+  shell: make < {{ softether_tmp_path }}/make.answers
+  args:
+    chdir: "{{ softether_install_path }}"
+  when: extraction.changed
+
+- name: copy vpn server config
+  template: src=vpn_server.config.j2 dest={{ softether_install_path }}/vpn_server.config backup=yes
+
+- name: copy vpnserver init.d script
+  template: src=vpnserver.initd.j2 dest=/etc/init.d/vpnserver mode=0755
+
+- name: ensure service is enabled
+  service: name=vpnserver enabled=yes state=started
