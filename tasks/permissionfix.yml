@@ -1,6 +1,9 @@
 ---
-- name: fix permissions, directories
-  file: state=directory path={{ softether_install_path }} mode=0700 recurse=yes
+- name: fix permissions, remove all extra permissions
+  file: state=directory path={{ softether_install_path }} mode=0600 recurse=yes
+
+- name: fix permissions, add back execute/search bits to directories only
+  file: state=directory path={{ softether_install_path }} mode="u+X" recurse=yes
 
 - name: fix permissions, executables
   file: state=file path={{ item }} mode=0700
