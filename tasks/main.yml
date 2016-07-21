@@ -15,7 +15,7 @@
 - name: extract vpnserver package
   unarchive:
     src: "{{ softether_tmp_path}}/{{ softether_package_file }}"
-    dest: {{ softether_install_prefix }}
+    dest: "{{ softether_install_prefix }}"
     copy: false
   when: download.changed
   register: extraction
