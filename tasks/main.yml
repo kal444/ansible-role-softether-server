@@ -17,13 +17,13 @@
     src: "{{ softether_tmp_path}}/{{ softether_package_file }}"
     dest: "{{ softether_install_prefix }}"
     copy: false
-  when: download.changed
+  when: download.changed or softether_force_build
 
 - name: execute build
   shell: make < {{ softether_tmp_path }}/make.answers
   args:
     chdir: "{{ softether_install_path }}"
-  when: download.changed
+  when: download.changed or softether_force_build
 
 - include: permissionfix.yml
 
