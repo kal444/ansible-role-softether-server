@@ -1,9 +1,6 @@
 ---
-- name: fix permissions, removal
-  file: state=directory path={{ softether_install_path }} mode=0600 recurse=yes
-
-- name: fix permissions, restore directories
-  command: chmod -R u+X vpnserver chdir={{ softether_install_prefix }}
+- name: fix permissions, directories
+  file: state=directory path={{ softether_install_path }} mode=0700 recurse=yes
 
 - name: fix permissions, executables
   file: state=file path={{ item }} mode=0700
