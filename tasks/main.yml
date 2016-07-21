@@ -18,13 +18,14 @@
     dest: "{{ softether_install_prefix }}"
     copy: false
   when: download.changed
-  register: extraction
 
 - name: execute build
   shell: make < {{ softether_tmp_path }}/make.answers
   args:
     chdir: "{{ softether_install_path }}"
-  when: extraction.changed
+  when: download.changed
+
+- include: permissionfix.yml
 
 - name: copy vpn server config
   template: src=vpn_server.config.j2 dest={{ softether_install_path }}/vpn_server.config backup=yes
@@ -34,3 +35,4 @@
 
 - name: ensure service is enabled
   service: name=vpnserver enabled=yes state=started
+
