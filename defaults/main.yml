@@ -8,6 +8,8 @@ softether_install_prefix: /usr/local
 softether_tmp_path: /tmp/vpnserver
 softether_force_build: false
 
+softether_hub_name: VPN
+
 softether_enable_syslog: true
 softether_syslog_host: localhost
 softether_syslog_port: 514
