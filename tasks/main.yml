@@ -31,7 +31,7 @@
   template: src=vpnserver.initd.j2 dest=/etc/init.d/vpnserver mode=0755
 
 - name: ensure service is stopped before the config fie is updated
-  service: name=vpnserver state=stopped
+  service: name=vpnserver enabled=yes state=stopped
 
 - name: copy vpn server config
   template: src=vpn_server.config.j2 dest={{ softether_install_path }}/vpn_server.config backup=yes
