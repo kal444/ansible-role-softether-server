@@ -1,32 +1,32 @@
 {% if softether_enable_syslog %}
-SyslogEnable 2 /HOST:{{ softether_syslog_host }}:{{ softether_syslog_port }}
+SyslogEnable 2 /HOST:"{{ softether_syslog_host }}":"{{ softether_syslog_port }}"
 {% endif %}
 
 KeepDisable
 
-IPsecEnable /L2TP:yes /L2TPRAW:no /ETHERIP:no /PSK:"{{ softether_ipsec_psk }}" /DEFAULTHUB:{{ softether_hub_name }}
+IPsecEnable /L2TP:yes /L2TPRAW:no /ETHERIP:no /PSK:"{{ softether_ipsec_psk }}" /DEFAULTHUB:"{{ softether_hub_name }}"
 OpenVpnEnable no /PORTS:1194
 SstpEnable no
 VpnAzureSetEnable no
 VpnOverIcmpDnsEnable /ICMP:no /DNS:no
 
-ServerPasswordSet {{ softether_admin_password }}
+ServerPasswordSet "{{ softether_admin_password }}"
 
 HubDelete DEFAULT
 
-HubCreate {{ softether_hub_name }} /PASSWORD:"{{ softether_hub_password }}"
+HubCreate "{{ softether_hub_name }}" /PASSWORD:"{{ softether_hub_password }}"
 
-Hub {{ softether_hub_name }}
+Hub "{{ softether_hub_name }}"
 
 SecureNatEnable
 
 {% for group in softether_users|map(attribute='group')|unique %}
 {% if group != 'none' %}
-GroupCreate {{ group }}
+GroupCreate "{{ group }}" /REALNAME:none /NOTE:none
 {% endif %}
 {% endfor %}
 
 {% for user in softether_users %}
-UserCreate {{ user.name }} /GROUP:{{ user.group }} /REALNAME:"{{ user.realname }}" /NOTE:"{{ user.note }}"
-UserPasswordSet {{ user.name }} /PASSWORD:"{{ user.password }}"
+UserCreate "{{ user.name }}" /GROUP:"{{ user.group }}" /REALNAME:"{{ user.realname }}" /NOTE:"{{ user.note }}"
+UserPasswordSet "{{ user.name }}" /PASSWORD:"{{ user.password }}"
 {% endfor %}
