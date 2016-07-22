@@ -8,4 +8,4 @@
     - remove batchconfig file
 
 - name: remove batchconfig file
-  debug: msg="removing..."
+  file: path="{{ softether_install_path }}/batchconfig.vpn" state=absent
