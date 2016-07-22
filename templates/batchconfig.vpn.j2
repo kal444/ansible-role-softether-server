@@ -30,3 +30,7 @@ GroupCreate "{{ group }}" /REALNAME:none /NOTE:none
 UserCreate "{{ user.name }}" /GROUP:"{{ user.group }}" /REALNAME:"{{ user.realname }}" /NOTE:"{{ user.note }}"
 UserPasswordSet "{{ user.name }}" /PASSWORD:"{{ user.password }}"
 {% endfor %}
+
+DynamicDnsGetStatus
+
+Flush
