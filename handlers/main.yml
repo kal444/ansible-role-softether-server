@@ -1,6 +1,11 @@
 ---
 - name: reload vpn config
-  command: ./vpncmd /server localhost /in:batchconfig.vpn
+  command: ./vpncmd /server localhost /password:"{{ softether_admin_password }}"  /in:batchconfig.vpn
   args:
     chdir: "{{ softether_install_path }}"
     removes: "{{ softether_install_path }}/batchconfig.vpn"
+  notify:
+    - remove batchconfig file
+
+- name: remove batchconfig file
+  debug: msg="removing..."
