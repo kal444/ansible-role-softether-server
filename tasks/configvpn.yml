@@ -13,3 +13,8 @@
 
 - include: remotesyslog.yml
   when: softether_enable_syslog
+
+- name: create batch configuration file
+  template: src=batchconfig.vpn.j2 dest="{{ softether_install_path }}"/batchconfig.vpn
+  notify:
+    - reload vpn config
