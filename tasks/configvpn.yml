@@ -11,3 +11,17 @@
 - name: ensure service is enabled and started
   service: name=vpnserver enabled=yes state=started
 
+- name: configure syslog to handle udp input
+  lineinfile:
+    dest: "/etc/rsyslog.conf"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - regexp: '^#module\(load="imudp"\)'
+      line: 'module(load="imudp")'
+    - regexp: '^#input\(type="imudp" port='
+      line: '^input\(type="imudp" port="514"\)'
+
+- name: restart syslog
+  service: name=rsyslog state=restarted
