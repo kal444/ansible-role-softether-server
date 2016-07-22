@@ -1,3 +1,6 @@
 ---
 - name: reload vpn config
-  debug: msg="reloading..."
+  command: ./vpncmd /server localhost /in:batchconfig.vpn
+  args:
+    chdir: "{{ softether_install_path }}"
+    removes: "{{ softether_install_path }}/batchconfig.vpn"
