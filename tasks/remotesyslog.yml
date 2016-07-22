@@ -1,9 +1,9 @@
 ---
-- name: ensure rsyslog is available
+- name: ensure rsyslog is available (Debian)
   apt: name=rsyslog state=present
   when: ansible_os_family == 'Debian'
 
-- name: ensure rsyslog is available
+- name: ensure rsyslog is available (RedHat)
   yum: name=rsyslog state=present
   when: ansible_os_family == 'RedHat'
 
