@@ -33,9 +33,11 @@
 - name: ensure service is stopped before the config fie is updated
   service: name=vpnserver enabled=yes state=stopped
 
-- name: copy vpn server config
+- name: copy empty vpn server config (this will be initialized when service starts)
   template: src=vpn_server.config.j2 dest={{ softether_install_path }}/vpn_server.config backup=yes
 
 - name: ensure service is enabled and started
   service: name=vpnserver enabled=yes state=started
+
+- include: configvpn.yml
 

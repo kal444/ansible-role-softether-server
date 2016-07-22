@@ -1,0 +1,14 @@
+---
+- name: ensure service is stopped before the config fie is updated
+  service: name=vpnserver enabled=yes state=stopped
+
+- name: disable DDnsClient (this only be done via config file)
+  lineinfile:
+    dest: "{{ softether_install_path }}/vpn_server.config"
+    regexp: "(\W+declare DDnsClient\W+{\W+bool Disabled) (false)"
+    line: "\1 true"
+    state: present
+
+- name: ensure service is enabled and started
+  service: name=vpnserver enabled=yes state=started
+
