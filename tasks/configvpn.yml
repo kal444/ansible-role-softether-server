@@ -18,10 +18,10 @@
     line: "{{ item.line }}"
     state: present
   with_items:
-    - regexp: '^#module\(load="imudp"\)'
+    - regexp: '^.*module.*load.*imudp'
       line: 'module(load="imudp")'
-    - regexp: '^#input\(type="imudp" port='
-      line: '^input\(type="imudp" port="514"\)'
+    - regexp: '^.*input.*imudp.*port'
+      line: 'input(type="imudp" port="514")'
 
 - name: restart syslog
   service: name=rsyslog state=restarted
