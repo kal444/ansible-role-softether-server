@@ -1,0 +1,23 @@
+---
+- name: ensure rsyslog is available
+  apt: name=rsyslog state=present
+  when: ansible_os_family == 'Debian'
+
+- name: ensure rsyslog is available
+  yum: name=rsyslog state=present
+  when: ansible_os_family == 'RedHat'
+
+- name: configure syslog to handle udp input
+  lineinfile:
+    dest: "{{ softether_rsyslog_conf_location }}"
+    regexp: "{{ item.regexp }}"
+    line: "{{ item.line }}"
+    state: present
+  with_items:
+    - regexp: '^.*module.*load.*imudp'
+      line: 'module(load="imudp")'
+    - regexp: '^.*input.*imudp.*port'
+      line: 'input(type="imudp" port="{{ softether_syslog_port }}")'
+
+- name: restart syslog
+  service: name=rsyslog enabled=yes state=restarted

@@ -3,3 +3,5 @@
 softether_package_file: "softether-vpnserver-{{ softether_version }}-linux-x64-64bit.tar.gz"
 softether_url: "http://www.softether-download.com/files/softether/{{ softether_version }}-tree/Linux/SoftEther_VPN_Server/64bit_-_Intel_x64_or_AMD64/{{ softether_package_file }}"
 softether_install_path: "{{ softether_install_prefix }}/vpnserver"
+
+softether_rsyslog_conf_location: /etc/rsyslog.conf
