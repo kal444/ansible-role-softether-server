@@ -5,8 +5,8 @@
 - name: disable DDnsClient (this only be done via config file)
   replace:
     dest: "{{ softether_install_path }}/vpn_server.config"
-    regexp: "(\W+declare DDnsClient\W+\{\W+bool Disabled) (false)"
-    replace: "\1 true"
+    regexp: '(declare DDnsClient\W+{\W+bool Disabled) (false)([^}]*)'
+    replace: '\g<1> true\r\n\t'
     state: present
 
 - name: ensure service is enabled and started
