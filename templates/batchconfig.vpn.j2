@@ -20,6 +20,12 @@ Hub {{ softether_hub_name }}
 
 SecureNatEnable
 
+{% for group in softether_users|map(attribute='group')|unique %}
+{% if group != 'none' %}
+GroupCreate {{ group }}
+{% endif %}
+{% endfor %}
+
 {% for user in softether_users %}
 UserCreate {{ user.name }} /GROUP:{{ user.group }} /REALNAME:"{{ user.realname }}" /NOTE:"{{ user.note }}"
 UserPasswordSet {{ user.name }} /PASSWORD:"{{ user.password }}"
