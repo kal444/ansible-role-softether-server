@@ -21,6 +21,6 @@ Hub {{ softether_hub_name }}
 SecureNatEnable
 
 {% for user in softether_users %}
-UserCreate {{ user.name }} /GROUP:{{ softether_user_group }} /REALNAME:"{{ user.realname }}" /NOTE:"{{ user.note }}"
+UserCreate {{ user.name }} /GROUP:{{ user.group }} /REALNAME:"{{ user.realname }}" /NOTE:"{{ user.note }}"
 UserPasswordSet {{ user.name }} /PASSWORD:"{{ user.password }}"
 {% endfor %}
