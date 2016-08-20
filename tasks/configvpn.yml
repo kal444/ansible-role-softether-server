@@ -7,6 +7,8 @@
     dest: "{{ softether_install_path }}/vpn_server.config"
     regexp: '(declare DDnsClient\W+{\W+bool Disabled) (false)([^}]*)'
     replace: '\g<1> true\r\n\t'
+  tags:
+    - ddnsclient
 
 - name: ensure service is enabled and started
   service: name=vpnserver enabled=yes state=started
