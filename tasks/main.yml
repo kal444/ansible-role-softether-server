@@ -30,14 +30,30 @@
 - name: copy vpnserver init.d script
   template: src=vpnserver.initd.j2 dest=/etc/init.d/vpnserver mode=0755
 
-- name: ensure service is stopped before the config fie is updated
-  service: name=vpnserver enabled=yes state=stopped
+- name: copy vpnserver systemd unit file when needed
+  template: src=vpnserver.service.j2 dest=/etc/systemd/system/vpnserver.service owner=root group=root mode=0755
+  register: systemd_service_file
+  when: >
+    (ansible_distribution == 'Ubuntu' and ansible_distribution_version.split(".")[0]|int >= 16) or
+    (ansible_distribution == 'Debian' and ansible_distribution_version.split(".")[0]|int >= 8) or
+    (ansible_distribution == 'CentOS' and ansible_distribution_version.split(".")[0]|int >= 7) or
+    (ansible_distribution == 'Fedora')
+
+- name: systemd daemon reload
+  command: systemctl daemon-reload
+  when: systemd_service_file.changed
+
+- name: ensure service is enabled at boot
+  service: name=vpnserver enabled=yes
+
+- name: ensure service is stopped before the config fie is updated/overwritten
+  service: name=vpnserver state=stopped
 
 - name: copy empty vpn server config (this will be initialized when service starts)
   template: src=vpn_server.config.j2 dest={{ softether_install_path }}/vpn_server.config backup=yes
 
-- name: ensure service is enabled and started
-  service: name=vpnserver enabled=yes state=started
+- name: ensure service is started
+  service: name=vpnserver state=started
 
 - include: configvpn.yml
 

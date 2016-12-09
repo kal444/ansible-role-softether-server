@@ -1,0 +1,12 @@
+[Unit]
+Description=SoftEther VPN server
+After=syslog.target
+After=network.target
+
+[Service]
+Type=simple
+ExecStart={{ softether_install_path }}/vpnserver start
+ExecStop={{ softether_install_path }}/vpnserver stop
+
+[Install]
+WantedBy=multi-user.target
