@@ -5,8 +5,8 @@ SyslogEnable 2 /HOST:"{{ softether_syslog_host }}":"{{ softether_syslog_port }}"
 KeepDisable
 
 IPsecEnable /L2TP:yes /L2TPRAW:no /ETHERIP:no /PSK:"{{ softether_ipsec_psk }}" /DEFAULTHUB:"{{ softether_hub_name }}"
-OpenVpnEnable no /PORTS:1194
-SstpEnable no
+SstpEnable yes
+OpenVpnEnable yes /PORTS:1194
 VpnAzureSetEnable no
 VpnOverIcmpDnsEnable /ICMP:no /DNS:no
 
@@ -34,3 +34,5 @@ UserPasswordSet "{{ user.name }}" /PASSWORD:"{{ user.password }}"
 DynamicDnsGetStatus
 
 Flush
+
+OpenVpnMakeConfig openvpn.zip
