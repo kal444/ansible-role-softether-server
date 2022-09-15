@@ -13,7 +13,7 @@
 - name: ensure service is enabled and started
   service: name=vpnserver enabled=yes state=started
 
-- include: remotesyslog.yml
+- include_tasks: remotesyslog.yml
   when: softether_enable_syslog
 
 - name: create batch configuration file

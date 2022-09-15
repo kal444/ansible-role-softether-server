@@ -1,6 +1,6 @@
 ---
 # tasks file for ansible-role-softether-server
-- include: buildtools.yml
+- include_tasks: buildtools.yml
 
 - name: setup tmp path
   file: path={{ softether_tmp_path }} state=directory
@@ -25,7 +25,7 @@
     chdir: "{{ softether_install_path }}"
   when: download.changed or softether_force_build
 
-- include: permissionfix.yml
+- include_tasks: permissionfix.yml
 
 - name: copy vpnserver init.d script
   template: src=vpnserver.initd.j2 dest=/etc/init.d/vpnserver mode=0755
@@ -55,5 +55,4 @@
 - name: ensure service is started
   service: name=vpnserver state=started
 
-- include: configvpn.yml
-
+- include_tasks: configvpn.yml
